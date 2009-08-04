@@ -1,3 +1,7 @@
+"""
+Model definitions to representation the activitystreams for multiple sites.
+"""
+
 import datetime
 
 from django.db import models
@@ -32,7 +36,7 @@ class Activity(models.Model):
 
     content = models.TextField(blank=True)
 
-    related_objects = models.ManyToManyFIeld(ActivityObject, through='RelatedActivityObject')
+    related_objects = models.ManyToManyField(ActivityObject, through='RelatedActivityObject')
 
 class RelatedActivityObject(models.Model):
     activity = models.ForeignKey(Activity)
@@ -43,7 +47,7 @@ class RelatedActivityObject(models.Model):
         unique_together = (('activityobject', 'related_object', 'key'),)
 
 class ActivityDetail(models.Model):
-    event = models.ForeignKey(Event, related_name='event_details')
+    activity = models.ForeignKey(Activity, related_name='event_details')
     key = models.CharField(max_length=100)
     value = models.TextField()
 
