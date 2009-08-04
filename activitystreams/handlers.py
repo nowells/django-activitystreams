@@ -22,7 +22,7 @@ class ActivityHandler(BaseHandler):
     @throttle(5, 10 * 60) # allow 5 times in 10 minutes
     def update(self, request, id):
         activity = Activity.objects.get(pk=id)
-        activity.timestamp = request.PUT.get('timestamp'))
+        activity.timestamp = request.PUT.get('timestamp')
         activity.save()
         return activity
 

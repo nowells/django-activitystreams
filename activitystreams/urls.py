@@ -9,6 +9,6 @@ ad = { 'authentication': auth }
 
 activity_resource = Resource(handler=ActivityHandler, **ad)
 
-urlpatterns += patterns('',
+urlpatterns = patterns('',
     url(r'^activities/(?P<id>[^/]+)/$', activity_resource),
 )

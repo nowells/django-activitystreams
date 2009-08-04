@@ -12,7 +12,7 @@ class Source(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
 class Action(models.Model):
-    source = models.ForeignKey(Source)
+    source = models.ForeignKey(Source, related_name='actions')
     slug = models.SlugField(unique=False)
     template = models.TextField()
 
@@ -20,7 +20,7 @@ class Action(models.Model):
         unique_together = (('source', 'slug'),)
 
 class ActivityObject(models.Model):
-    source = models.ForeignKey(Source)
+    source = models.ForeignKey(Source, related_name='activity_objects')
     content_type_id = models.PositiveIntegerField(null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
 
@@ -28,10 +28,10 @@ class ActivityObject(models.Model):
         unique_together = (('source', 'content_type_id', 'object_id'),)
 
 class Activity(models.Model):
-    action = models.ForeignKey(Action)
-    user = models.ForeignKey(User)
-    direct_object = models.ForeignKey(ActivityObject)
-    indirect_object = models.ForeignKey(ActivityObject)
+    action = models.ForeignKey(Action, related_name='activities')
+    user = models.ForeignKey(User, related_name='activitystreams_activities')
+    direct_object = models.ForeignKey(ActivityObject, related_name='direct_activities')
+    indirect_object = models.ForeignKey(ActivityObject, related_name='indirect_activities')
     timestamp = models.DateTimeField()
 
     content = models.TextField(blank=True)
@@ -44,10 +44,10 @@ class RelatedActivityObject(models.Model):
     key = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = (('activityobject', 'related_object', 'key'),)
+        unique_together = (('activity', 'related_object', 'key'),)
 
 class ActivityDetail(models.Model):
-    activity = models.ForeignKey(Activity, related_name='event_details')
+    activity = models.ForeignKey(Activity, related_name='activity_details')
     key = models.CharField(max_length=100)
     value = models.TextField()
 
@@ -55,11 +55,11 @@ class ActivityDetail(models.Model):
         return u'%s: %s' % (self.key, self.value)
 
     class Meta:
-        unique_together = (('event', 'key'),)
+        unique_together = (('activity', 'key'),)
 
 class Interest(models.Model):
-    activity_object = models.ForeignKey(ActivityObject)
-    user = models.ForeignKey(User)
+    activity_object = models.ForeignKey(ActivityObject, related_name='interests')
+    user = models.ForeignKey(User, related_name='activitystreams_interests')
 
     class Meta:
-        unique_together = (('source_object', 'user'),)
+        unique_together = (('activity_object', 'user'),)
