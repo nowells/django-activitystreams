@@ -2,8 +2,6 @@ import datetime
 
 from django.db import models
 from django.db.models.query import Q
-from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 
 class Source(models.Model):
