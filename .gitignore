@@ -2,3 +2,6 @@
 .DS_Store
 \#*#
 *.pyc
+docs/_build/
+pip-log.txt
+ve/
