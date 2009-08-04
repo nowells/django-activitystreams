@@ -47,14 +47,11 @@ class ActivityHandler(BaseHandler):
         """
         Creates a new Activity record.
         """
-        attrs = self.flatten_dict(request.POST)
-
-        if self.exists(**attrs):
+        if self.exists(content=request.data['content']):
             return rc.DUPLICATE_ENTRY
         else:
-            action = Action.objects.get(pk=1) # TODO: TEMP FOR TESTING ONLY!
-            activity = Activity(action=action,
-                            content=attrs['content'],
+            activity = Activity(action_id=1,
+                            content=request.data['content'],
                             user=request.user)
             activity.save()
 
