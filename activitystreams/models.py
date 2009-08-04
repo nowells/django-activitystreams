@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models.query import Q
 from django.contrib.auth.models import User
 
+from activitystreams.utils import PickleField
+
 class Source(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -38,36 +40,15 @@ class ActivityObject(models.Model):
 
 class Activity(models.Model):
     action = models.ForeignKey(Action, related_name='activities')
-    user = models.ForeignKey(User, related_name='activitystreams_activities')
-    direct_object = models.ForeignKey(ActivityObject, related_name='direct_activities')
-    indirect_object = models.ForeignKey(ActivityObject, related_name='indirect_activities')
-    timestamp = models.DateTimeField()
-
+    user = models.ForeignKey(User, null=True, blank=True, related_name='activitystreams_activities')
+    direct_object = models.ForeignKey(ActivityObject, null=True, blank=True, related_name='direct_activities')
+    indirect_object = models.ForeignKey(ActivityObject, null=True, blank=True, related_name='indirect_activities')
+    timestamp = models.DateTimeField(default=datetime.datetime.now)
+    extra_data = PickleField(blank=True)
     content = models.TextField(blank=True)
-
-    related_objects = models.ManyToManyField(ActivityObject, through='RelatedActivityObject')
 
     def __unicode__(self):
         return '%s:%s:%s' % (self.action, self.user_id, self.id)
-
-class RelatedActivityObject(models.Model):
-    activity = models.ForeignKey(Activity)
-    related_object = models.ForeignKey(ActivityObject)
-    key = models.CharField(max_length=100)
-
-    class Meta:
-        unique_together = (('activity', 'related_object', 'key'),)
-
-class ActivityDetail(models.Model):
-    activity = models.ForeignKey(Activity, related_name='activity_details')
-    key = models.CharField(max_length=100)
-    value = models.TextField()
-
-    def __unicode__(self):
-        return u'%s: %s' % (self.key, self.value)
-
-    class Meta:
-        unique_together = (('activity', 'key'),)
 
 class Interest(models.Model):
     activity_object = models.ForeignKey(ActivityObject, related_name='interests')

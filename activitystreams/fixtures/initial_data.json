@@ -1,1 +1,1 @@
-[{"pk": 1, "model": "activitystreams.source", "fields": {"name": "local"}}]
+[{"pk": 1, "model": "activitystreams.source", "fields": {"name": "local"}}, {"pk": 1, "model": "activitystreams.action", "fields": {"source": 1, "slug": "site_page_view", "template": "{% if user %}\r\n    <a href=\"{{ user_url }}\">{{ username }}</a> viewed <a href=\"{{ url }}\">{{ url }}</a>\r\n{% else %}\r\n    {{ remote_ip }} viewed <a href=\"{{ url }}\">{{ url }}</a>\r\n{% endif %}"}}]
