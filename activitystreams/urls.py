@@ -2,13 +2,15 @@ from django.conf.urls.defaults import patterns, url, include, handler500, handle
 from piston.resource import Resource
 from piston.authentication import HttpBasicAuthentication
 
-from activitystreams.handlers import ActivityHandler
+from activitystreams.handlers import ActivityHandler, ActivityListHandler
 
 auth = HttpBasicAuthentication(realm="My Realm")
 ad = { 'authentication': auth }
 
 activity_resource = Resource(handler=ActivityHandler, **ad)
+activity_list_resource = Resource(handler=ActivityListHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^activities/(?P<id>[^/]+)/$', activity_resource),
+    url(r'^activity/$', activity_list_resource),
+    url(r'^activity/(?P<id>[^/]+)/$', activity_resource),
 )

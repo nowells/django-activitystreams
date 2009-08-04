@@ -5,15 +5,18 @@ from piston.utils import rc, throttle
 
 from activitystreams.models import Activity
 
+class ActivityListHandler(BaseHandler):
+    allowed_methods = ('GET',)
+    fields = ('content', 'resource_uri',)
+
+    def read(self, request):
+        return Activity.objects.all()
+
 class ActivityHandler(BaseHandler):
     allowed_methods = ('GET', 'PUT', 'DELETE')
-    fields = ('title', 'content', ('author', ('username', 'first_name')), 'content_size')
+    fields = ('content', ('user', ('username', 'first_name')), 'resource_uri')
     exclude = ('id', re.compile(r'^private_'))
     model = Activity
-
-    @classmethod
-    def content_size(cls, activity):
-        return len(activity.content)
 
     def read(self, request, id):
         activity = Activity.objects.get(pk=id)

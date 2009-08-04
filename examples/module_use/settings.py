@@ -12,6 +12,7 @@ DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'database.tmp~')
 ROOT_URLCONF = 'urls'
 
 INSTALLED_APPS = (
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

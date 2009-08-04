@@ -1,5 +1,6 @@
+django==1.1
+django-extensions
+django-piston
 pip
 sphinx
-django==1.1
-
--e hg+https://bitbucket.org/jespern/django-piston/#egg=piston
+Werkzeug
