@@ -11,6 +11,6 @@ activity_resource = Resource(handler=ActivityHandler, **ad)
 activity_list_resource = Resource(handler=ActivityListHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^activity/$', activity_list_resource),
-    url(r'^activity/(?P<id>[^/]+)/$', activity_resource),
+    url(r'^activity\.(?P<emitter_format>.+)$', activity_list_resource),
+    url(r'^activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', activity_resource),
 )
