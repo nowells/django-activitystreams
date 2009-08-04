@@ -8,9 +8,8 @@ auth = HttpBasicAuthentication(realm="My Realm")
 ad = { 'authentication': auth }
 
 activity_resource = Resource(handler=ActivityHandler, **ad)
-activity_list_resource = Resource(handler=ActivityListHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^activities\.(?P<emitter_format>.+)$', activity_list_resource),
-    url(r'^activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)/$', activity_resource),
+    url(r'^activities\.(?P<emitter_format>.+)$', activity_resource),
+    url(r'^activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', activity_resource),
 )
