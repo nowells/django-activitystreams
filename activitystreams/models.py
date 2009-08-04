@@ -28,9 +28,10 @@ class Activity(models.Model):
     user = models.ForeignKey(User)
     direct_object = models.ForeignKey(ActivityObject)
     indirect_object = models.ForeignKey(ActivityObject)
-    summary = models.TextField(blank=True)
-    description = models.TextField(blank=True)
     timestamp = models.DateTimeField()
+
+    content = models.TextField(blank=True)
+
     related_objects = models.ManyToManyFIeld(ActivityObject, through='RelatedActivityObject')
 
 class RelatedActivityObject(models.Model):

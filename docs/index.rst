@@ -7,6 +7,7 @@ Contents:
    :maxdepth: 3
 
    introduction
+   activitystreams.models
 
 Indices and tables
 ==================
