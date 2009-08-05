@@ -1,0 +1,6 @@
+include README
+include LICENSE
+include AUTHORS
+include MANIFEST.in
+include REQUIREMENTS
+recursive-include docs *
