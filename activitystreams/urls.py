@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, url, include, handler500, handle
 from piston.resource import Resource
 from piston.authentication import HttpBasicAuthentication
 
-from activitystreams.handlers import ActivityHandler, ActivityListHandler
+from activitystreams.handlers import ActivityHandler
 
 auth = HttpBasicAuthentication(realm="My Realm")
 ad = { 'authentication': auth }

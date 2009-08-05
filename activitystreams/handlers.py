@@ -5,13 +5,6 @@ from piston.utils import rc, throttle, require_extended
 
 from activitystreams.models import Activity, Action
 
-class ActivityListHandler(BaseHandler):
-    allowed_methods = ('GET',)
-    #fields = ('content', 'resource_uri',)
-
-    def read(self, request):
-        return Activity.objects.all()
-
 class ActivityHandler(BaseHandler):
     allowed_methods = ('GET', 'PUT', 'DELETE', 'POST',)
     fields = ('content', ('user', ('username', 'first_name')), 'resource_uri')
