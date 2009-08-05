@@ -9,6 +9,8 @@ Contents:
    introduction
    activitystreams.models
 
+.. include:: overview.rst
+
 Indices and tables
 ==================
 
