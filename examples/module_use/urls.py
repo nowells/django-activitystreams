@@ -10,7 +10,7 @@ admin.autodiscover()
 django_admin_media_path = os.path.join(os.path.abspath(os.path.dirname(django.__file__)), 'contrib', 'admin', 'media')
 
 urlpatterns = patterns('',
-    url(r'^api/', include('activitystreams.urls')),
+    url(r'^api/activitystreams/', include('activitystreams.urls')),
     url(r'^django-admin/', include(admin.site.urls)),
     url(r'^django-admin-media/(?P<path>.*)$', serve, {'document_root': django_admin_media_path}),
 )

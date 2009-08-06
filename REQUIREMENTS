@@ -4,3 +4,4 @@ django-piston
 pip
 sphinx
 Werkzeug
+python-wellrested
