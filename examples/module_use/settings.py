@@ -7,7 +7,7 @@ TEMPLATE_DEBUG = DEBUG
 SITE_ROOT = os.path.realpath(os.path.join(os.path.realpath(os.path.dirname(__file__)), '..'))
 
 DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'database.tmp~')
+DATABASE_NAME = os.path.realpath(os.path.join(os.path.dirname(__file__), 'database.tmp~'))
 
 ROOT_URLCONF = 'urls'
 
@@ -19,6 +19,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'activitystreams',
     'piston',
+)
+
+from django.conf import global_settings
+
+MIDDLEWARE_CLASSES = global_settings.MIDDLEWARE_CLASSES + (
+    'activitystreams.middleware.SiteActivityMiddleware',
 )
 
 TEMPLATE_LOADERS = (

@@ -37,7 +37,7 @@ class SourceActivityHandler(BaseHandler):
         :param indirect_object_object_id: Object ID for the indirect object of this Activity.
         :type indirect_object_object_id: Integer
         """
-        if self.exists(content=request.data['content'], user_id=request.data['user_id']):
+        if self.exists(content=request.data['content'], user__id=request.data['user_id']):
             return rc.DUPLICATE_ENTRY
         else:
             source = Source.objects.get(slug=source)
