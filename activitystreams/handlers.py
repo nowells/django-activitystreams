@@ -8,14 +8,14 @@ import datetime
 from piston.handler import BaseHandler
 from piston.utils import rc, throttle, require_extended
 
-from activitystreams.models import Activity, Action, Source, ActivityObject
+from activitystreams.models import Activity, Action, Source, ActivityObject, UserObject
 
 class SourceActivityHandler(BaseHandler):
     """
     The primary handler for the system, this handles creating Activity records, as well as all associated records.
     """
     allowed_methods = ('GET', 'PUT', 'DELETE', 'POST',)
-    fields = ('content', ('user', ('username', 'first_name')), 'resource_uri')
+    fields = ('content', ('user', ('user_id',)),)
     #exclude = ('id', re.compile(r'^private_'))
     model = Activity
 
@@ -27,7 +27,7 @@ class SourceActivityHandler(BaseHandler):
         :param action: The slug for the Action that this Activity is related to.
         :type action: String
         :param user_id: The User ID for the User associated with this Action TODO: Figure out how to handle users
-        :type user_id: TBD
+        :type user_id: String
         :param direct_object_content_type_id: ContentType ID for the direct object of this Activity.
         :type direct_object_content_type_id: Integer
         :param direct_object_object_id: Object ID for the direct object of this Activity.
@@ -36,8 +36,10 @@ class SourceActivityHandler(BaseHandler):
         :type indirect_object_content_type_id: Integer
         :param indirect_object_object_id: Object ID for the indirect object of this Activity.
         :type indirect_object_object_id: Integer
+        :param context: A dictionary of key, value pairs that are made available as context to the Action template upon rendering.
+        :type context: Dictionary
         """
-        if self.exists(content=request.data['content'], user__id=request.data['user_id']):
+        if False:
             return rc.DUPLICATE_ENTRY
         else:
             source = Source.objects.get(slug=source)
@@ -61,13 +63,18 @@ class SourceActivityHandler(BaseHandler):
             else:
                 indirect_object = None
 
+            user = None
+            user_id = request.data.get('user_id', '')
+            if user_id:
+                user, is_new = UserObject.objects.get_or_create(user_id=user_id)
+
             activity = Activity(
-                action = action,
-                user_id = request.data.get('user_id', ''),
-                direct_object = direct_object,
-                indirect_object = indirect_object,
-                timestamp = request.data.get('timestamp', datetime.datetime.now()),
-                context = request.data.get('context', None),
+                action=action,
+                user=user,
+                direct_object=direct_object,
+                indirect_object=indirect_object,
+                timestamp=request.data.get('timestamp', datetime.datetime.now()),
+                context=request.data.get('context', None),
             )
             activity.save()
 
@@ -89,10 +96,6 @@ class SourceActivityHandler(BaseHandler):
 
     def delete(self, request, id, source_name):
         activity = Activity.objects.get(pk=id, action__source__slug=source)
-
-        if not request.user == activity.user:
-            return rc.FORBIDDEN # returns HTTP 401
-
         activity.delete()
 
         return rc.DELETED # returns HTTP 204
@@ -102,7 +105,7 @@ class GlobalActivityHandler(BaseHandler):
     The primary handler for the global activity on the system, this only allows reading of content.
     """
     allowed_methods = ('GET',)
-    fields = ('content', ('user', ('username', 'first_name')), 'resource_uri')
+    fields = ('content', ('user', ('user_id',)),)
     #exclude = ('id', re.compile(r'^private_'))
     model = Activity
 
@@ -174,10 +177,6 @@ class SourceActionHandler(BaseHandler):
 
     def delete(self, request, id, source):
         action = Action.objects.get(pk=id, source__slug=source)
-
-        if not request.user == activity.user:
-            return rc.FORBIDDEN # returns HTTP 401
-
         action.delete()
 
         return rc.DELETED # returns HTTP 204

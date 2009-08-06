@@ -14,8 +14,8 @@ class SiteActivityMiddleware(object):
                 request.user.username,
                 request.user,
                 request.user,
-                extra={
+                context={
                     'username': request.user.username,
-                    'request_path': request.get_full_path()
+                    'request_path': 'http://%s%s' % (request.get_host(), request.get_full_path()),
                     }
                 )
