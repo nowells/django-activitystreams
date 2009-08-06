@@ -44,7 +44,7 @@ class Activity(models.Model):
     direct_object = models.ForeignKey(ActivityObject, null=True, blank=True, related_name='direct_activities')
     indirect_object = models.ForeignKey(ActivityObject, null=True, blank=True, related_name='indirect_activities')
     timestamp = models.DateTimeField(default=datetime.datetime.now)
-    extra_data = PickleField(blank=True)
+    extra_data = PickleField(blank=True, null=True)
     content = models.TextField(blank=True)
 
     def __unicode__(self):
