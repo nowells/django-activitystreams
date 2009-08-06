@@ -19,14 +19,14 @@ urlpatterns = patterns('',
     url(r'^activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', global_activity_resource),
 
     # Source-Specific Activities
-    url(r'^(?P<source_name>[\w\-_]+)/activities\.(?P<emitter_format>.+)$', source_activity_resource),
-    url(r'^(?P<source_name>[\w\-_]+)/activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', source_activity_resource),
+    url(r'^(?P<source>[\w\-_]+)/activities\.(?P<emitter_format>.+)$', source_activity_resource),
+    url(r'^(?P<source>[\w\-_]+)/activity/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', source_activity_resource),
 
     #Global Actions
     url(r'^actions\.(?P<emitter_format>.+)$', global_action_resource),
     url(r'^action/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', global_action_resource),
 
     # Source-Specific Actions
-    url(r'^(?P<source_name>[\w\-_]+)/actions\.(?P<emitter_format>.+)$', source_action_resource),
-    url(r'^(?P<source_name>[\w\-_]+)/action/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', source_action_resource),
+    url(r'^(?P<source>[\w\-_]+)/actions\.(?P<emitter_format>.+)$', source_action_resource),
+    url(r'^(?P<source>[\w\-_]+)/action/(?P<id>[^/]+)\.(?P<emitter_format>.+)$', source_action_resource),
 )

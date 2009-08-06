@@ -4,3 +4,5 @@ django-piston
 pip
 sphinx
 Werkzeug
+
+-e git+git://github.com/nowells/python-wellrested.git#egg=python-wellrested
